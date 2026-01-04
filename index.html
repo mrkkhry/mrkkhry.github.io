@@ -436,6 +436,14 @@
             margin-bottom: 2rem;
         }
 
+        .detail-images.grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .detail-images.grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
         .detail-image {
             width: 100%;
             height: auto;
@@ -571,7 +579,7 @@
             }
 
             .detail-images {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
             }
 
             .form-group {
@@ -659,7 +667,8 @@
                     <h2>Nine! Trivet</h2>
                     <p>A tray and nine individual trivets that can be playfully removed, placed, rearranged and combined.</p>
                 </div>
-                <div class="project-card-image">💡</div>
+                <div class="project-card-image" style="background: url('images/projects/ninetrivet-hero.jpg') center/cover no-repeat;"></div>
+
             </div>
 
             <div class="project-card" onclick="showProject('project3')">
@@ -708,7 +717,25 @@
                 title: 'Nine! Trivet',
                 description: 'A tray and nine individual trivets that can be playfully removed, placed, rearranged and combined.',
                 fullDescription: 'Instead of a typical single piece trivet, of which there are many beautiful iterations, Nine! Trivet consists of a tray and nine individual trivets that can be playfully removed, placed, rearranged and combined to protect your table from one (or many) of your smallest (or largest) serving dishes.',
-                emoji: '💡'
+                 heroImage: 'images/projects/ninetrivet-hero.jpg',
+                     images: [
+                          'images/projects/ninetrivet-1.jpg',
+                          'images/projects/ninetrivet-2.jpg',
+                          'images/projects/ninetrivet-3.jpg',
+                          'images/projects/ninetrivet-4.jpg',
+                          'images/projects/ninetrivet-5.jpg',
+                          'images/projects/ninetrivet-6.jpg',
+                          'images/projects/ninetrivet-7.jpg',
+                          'images/projects/ninetrivet-8.jpg',
+                          'images/projects/ninetrivet-9.jpg',
+                          'images/projects/ninetrivet-10.jpg',
+                          'images/projects/ninetrivet-11.jpg',
+                          'images/projects/ninetrivet-12.jpg',
+                          'images/projects/ninetrivet-13.jpg',
+                          'images/projects/ninetrivet-14.jpg',
+                          'images/projects/ninetrivet-15.jpg'
+             ],
+             layout: 'grid-3'  // Add this to specify 3-column layout
             },
             project3: {
                 title: 'Tilt Collection',
@@ -739,12 +766,16 @@
 
     <div class="hero-image" style="background: url('${project.heroImage}') center/cover no-repeat;"></div>
     
-    <div class="detail-images">
-        <div class="detail-image" style="background: url('${project.images[0]}') center/cover no-repeat;"></div>
-        <div class="detail-image" style="background: url('${project.images[1]}') center/cover no-repeat;"></div>
-        <div class="detail-image" style="background: url('${project.images[2]}') center/cover no-repeat;"></div>
-        <div class="detail-image" style="background: url('${project.images[3]}') center/cover no-repeat;"></div>
-    </div>
+    <div class="detail-images ${project.layout || 'grid-2'}">
+    ${project.images ? project.images.map(img => `
+        <div class="detail-image" style="background: url('${img}') center/cover no-repeat;"></div>
+    `).join('') : `
+        <div class="detail-image">${project.emoji}</div>
+        <div class="detail-image">${project.emoji}</div>
+        <div class="detail-image">${project.emoji}</div>
+        <div class="detail-image">${project.emoji}</div>
+    `}
+    </div>  
     
     <div class="detail-info">
         <p><strong>Key Features:</strong></p>
