@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industrial Designer Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 12px;
+            color: #000;
+            background: white;
+            overflow-x: hidden;
+        }
+
+        /* Mobile menu styles */
+        .mobile-header {
+            display: none;
+        }
+
+        .mobile-menu {
+            display: none;
+        }
+
+        .mobile-overlay {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-header {
+                display: flex;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 60px;
+                background: white;
+                z-index: 200;
+                align-items: center;
+                padding: 0 1rem;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .mobile-overlay {
+                display: block;
+            }
+        }
+
+        .mobile-menu-btn {
+            position: absolute;
+            left: 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                left: 1rem;
+            }
+        }
+
+        .mobile-menu-btn svg {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 40px;
+            width: 60px;
+            background: url('images/logo.png') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-logo.hidden {
+            opacity: 0;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background: white;
+            z-index: 199;
+            padding: 2rem 1.5rem;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.open {
+            transform: translateY(0);
+        }
+
+        .mobile-menu .bio {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .mobile-menu .headshot {
+            width: 33.33%;
+            padding-bottom: 41.66%;
+            background: url('images/headshot.jpg') center/cover no-repeat;
+            margin: 0 auto 1.5rem;
+            position: relative;
+        }
+
+        .mobile-menu .contact-links a {
+            display: block;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #222222;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .mobile-menu .contact-links a:hover {
+            color: #41625F;
+        }
+
+        .mobile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.5);
+            z-index: 198;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        /* Left sidebar - fixed */
+        .sidebar {
+            width: 40%;
+            background: white;
+            color: #000;
+            padding: 3rem 2rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+            transition: width 0.3s ease, padding 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            width: 15%;
+            padding: 3rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo {
+            width: 33.33%;
+            padding-bottom: 25%;
+            background: url('images/logo.png') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .sidebar.collapsed .logo {
+            width: 33.33%;
+            padding-bottom: 25%;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .headshot {
+            width: 33.33%;
+            padding-bottom: 41.66%;
+            background: url('images/headshot.jpg') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .sidebar.collapsed .headshot {
+            display: none;
+        }
+
+        .sidebar h1 {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: none;
+        }
+
+        .sidebar .title {
+            font-size: 12px;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .bio {
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 12px;
+            font-weight: 300;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar.collapsed .bio,
+        .sidebar.collapsed .title {
+            display: none;
+        }
+
+        .contact-links {
+            margin-top: 2rem;
+        }
+
+        .contact-links a {
+            display: block;
+            color: #222222;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            transition: color 0.3s;
+            font-size: 12px;
+        }
+
+        .contact-links a:hover {
+            color: #41625F;
+        }
+
+        .sidebar.collapsed .contact-links a {
+            text-align: center;
+            font-size: 20px;
+        }
+
+        .sidebar.collapsed .contact-links .link-text {
+            display: none;
+        }
+
+        .sidebar.collapsed .contact-links .icon-only {
+            display: inline-block;
+        }
+
+        /* Middle column - projects */
+        .projects-column {
+            width: 60%;
+            margin-left: 40%;
+            padding: 3rem 2rem;
+            transition: width 0.3s ease, margin-left 0.3s ease;
+        }
+
+        .projects-column.expanded {
+            width: 85%;
+            margin-left: 15%;
+        }
+
+        .project-card {
+            background: white;
+            margin-bottom: 3rem;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .project-card:hover {
+            opacity: 0.7;
+        }
+
+        .project-card-content {
+            padding: 0;
+            margin-bottom: 1rem;
+        }
+
+        .project-card h2 {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #000;
+        }
+
+        .project-card p {
+            color: #000;
+            font-size: 12px;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .project-card-image {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 3 / 2;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .project-card-image {
+                font-size: 3rem;
+            }
+        }
+
+        /* Right column - detail view */
+        .detail-column {
+            width: 0;
+            position: fixed;
+            right: 0;
+            height: 100vh;
+            background: white;
+            padding: 0;
+            overflow-y: auto;
+            transition: width 0.3s ease, padding 0.3s ease;
+            display: none;
+        }
+
+        .detail-column.visible {
+            display: flex;
+            width: 85%;
+        }
+
+        .close-btn-column {
+            width: 5%;
+            position: fixed;
+            right: 0;
+            height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding-top: 3rem;
+        }
+
+        .close-btn {
+            background: transparent;
+            color: #000;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+
+        .detail-content {
+            width: 95%;
+            padding: 3rem 5% 3rem 2rem;
+            padding-bottom: 100px;
+        }
+
+        .close-btn:hover {
+            color: #41625F;
+        }
+
+        .detail-info {
+            margin-bottom: 2rem;
+        }
+
+        .detail-info h2 {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #000;
+        }
+
+        .detail-info p {
+            line-height: 1.8;
+            color: #000;
+            font-size: 12px;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 3 / 2;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-image {
+                font-size: 3rem;
+            }
+        }
+
+        .detail-images {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .detail-image {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 3 / 2;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .detail-image {
+                font-size: 2rem;
+            }
+        }
+
+        .contact-form {
+            background: white;
+            padding: 0;
+            margin-bottom: 40px;
+        }
+
+        .contact-form h3 {
+            margin-bottom: 1rem;
+            color: #000;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+            max-width: calc(50% - 0.5rem);
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #000;
+            font-size: 12px;
+            font-weight: 300;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #000;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 300;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            cursor: pointer;
+            font-size: 12px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+        }
+
+        .submit-btn:hover {
+            background: #41625F;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 60px;
+            }
+
+            .mobile-header {
+                display: flex;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .projects-column {
+                width: 100%;
+                margin-left: 0;
+                padding: 1.5rem 1rem;
+            }
+
+            .detail-column {
+                width: 100%;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: white;
+                z-index: 201;
+            }
+
+            .projects-column.expanded {
+                display: none;
+            }
+
+            .detail-column.visible {
+                width: 100%;
+                flex-direction: column;
+                display: block;
+            }
+
+            .close-btn-column {
+                position: fixed;
+                width: auto;
+                height: auto;
+                top: 1rem;
+                right: 1rem;
+                left: auto;
+                padding: 0;
+                padding-right: 10px;
+                z-index: 202;
+            }
+
+            .close-btn {
+                font-size: 20px;
+            }
+
+            .detail-content {
+                width: 100%;
+                padding: 4rem 1rem 3rem 1rem;
+            }
+
+            .detail-images {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group {
+                max-width: 100%;
+            }
+        }
+
+        /* Close mobile menu when resizing to desktop */
+        @media (min-width: 769px) {
+            body {
+                padding-top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Mobile Header -->
+        <div class="mobile-header">
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" id="mobileMenuBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
+                    <path d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/>
+                </svg>
+            </button>
+            <div class="mobile-logo" id="mobileLogo">◆</div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="bio">
+                <p>Mark Khoury Design is the personal practice of Toronto based industrial designer Mark Khoury. His work - consisting of objects, furniture, and spaces - reflects his focus on iterative design ideation, material exploration, and the leveraging of fabrication knowledge to realize tangible design solutions. He is inspired by the joys of the world around him and values timeless style and construction, yielding work intended to be used, worn down, and loved for years to come.</p>
+            </div>
+            <div class="headshot"></div>
+            <div class="contact-links">
+                <a href="mailto:info@markkhourydesign.com">info@markkhourydesign.com</a>
+                <a href="https://instagram.com/markkhourydesign" target="_blank">@markkhourydesign</a>
+            </div>
+        </div>
+
+        <!-- Mobile Overlay -->
+        <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
+
+        <!-- Left Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="logo"></div>
+            <h1>Jane Smith</h1>
+            <p class="title">Industrial Designer</p>
+            <div class="bio">
+                <p>Mark Khoury Design is the personal practice of Toronto based industrial designer Mark Khoury. His work - consisting of objects, furniture, and spaces - reflects his focus on iterative design ideation, material exploration, and the leveraging of fabrication knowledge to realize tangible design solutions. He is inspired by the joys of the world around him and values timeless style and construction, yielding work intended to be used, worn down, and loved for years to come.</p>
+            </div>
+            <div class="headshot"></div>
+            <div class="contact-links">
+                <a href="mailto:info@markkhourydesign.com">
+                    <span class="link-text">info@markkhourydesign.com</span>
+                    <span class="icon-only" style="display:none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
+                            <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z"/>
+                        </svg>
+                    </span>
+                </a>
+                <a href="https://instagram.com/markkhourydesign" target="_blank">
+                    <span class="link-text">@markkhourydesign</span>
+                    <span class="icon-only" style="display:none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
+                            <path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480v53q0 56-39.5 95.5T745-292q-36 0-68-17.5T627-356q-26 29-62.5 46.5T480-292q-83 0-141.5-58.5T280-492q0-83 58.5-141.5T480-692q83 0 141.5 58.5T680-492v53q0 23 15 38t38 15q23 0 38-15t15-38v-53q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93h200v80H480Zm0-292q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Z"/>
+                        </svg>
+                    </span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Middle Column - Projects -->
+        <main class="projects-column" id="projectsColumn">
+            <div class="project-card" onclick="showProject('project1')">
+                <div class="project-card-content">
+                    <h2>Tilt Lounging Set</h2>
+                    <p>In response to rapid urbanization and shrinking dwelling sizes, the Tilt Lounging Set offers the luxury of a traditional lounge chair without the typical heft and footprint.</p>
+                </div>
+                <div class="project-card-image" style="background: url('images/projects/tiltchair-hero.jpg') center/cover no-repeat;"></div>
+
+            </div>
+
+            <div class="project-card" onclick="showProject('project2')">
+                <div class="project-card-content">
+                    <h2>Nine! Trivet</h2>
+                    <p>A tray and nine individual trivets that can be playfully removed, placed, rearranged and combined.</p>
+                </div>
+                <div class="project-card-image">💡</div>
+            </div>
+
+            <div class="project-card" onclick="showProject('project3')">
+                <div class="project-card-content">
+                    <h2>Tilt Collection</h2>
+                    <p>A collection of furniture pieces designed for residential and commercial applications that expand upon the visual language and structural characteristics of the Tilt Lounging Set.</p>
+                </div>
+                <div class="project-card-image">🎧</div>
+            </div>
+
+            <div class="project-card" onclick="showProject('project4')">
+                <div class="project-card-content">
+                    <h2>Custom Work</h2>
+                    <p>Various commissioned works showcasing skill and sensibility in both design and fabrication.</p>
+                </div>
+                <div class="project-card-image">♻️</div>
+            </div>
+        </main>
+
+        <!-- Right Column - Project Details -->
+        <aside class="detail-column" id="detailColumn">
+            <div class="detail-content" id="projectDetails">
+                <!-- Content will be dynamically inserted here -->
+            </div>
+            <div class="close-btn-column">
+                <button class="close-btn" onclick="closeProject()"><</button>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        const projects = {
+            project1: {
+                title: 'Tilt Lounging Set',
+                description: 'In response to rapid urbanization and shrinking dwelling sizes, the Tilt Lounging Set offers the luxury of a traditional lounge chair without the typical heft and footprint.',
+                fullDescription: 'In response to rapid urbanization and shrinking dwelling sizes, the Tilt Lounging Set offers the luxury of a traditional lounge chair without the typical heft and footprint. The chief innovation lies in the slung leather backrest - free of a restrictive frame or support structure - which pivots with the user on custom hardware, equitably catering to bodies of all sizes in spaces of all sizes. The lounge chair and ottoman match in proportion, material, and quality, to help you elevate your relaxation and get a leg up on your comfort.',
+                heroImage: 'images/projects/tiltchair-hero.jpg',
+                 images: [
+                   'images/projects/tiltchair-1.jpg',
+                   'images/projects/tiltchair-2.jpg',
+                   'images/projects/tiltchair-3.jpg',
+                   'images/projects/tiltchair-4.jpg'
+            ]
+            },
+            project2: {
+                title: 'Nine! Trivet',
+                description: 'A tray and nine individual trivets that can be playfully removed, placed, rearranged and combined.',
+                fullDescription: 'Instead of a typical single piece trivet, of which there are many beautiful iterations, Nine! Trivet consists of a tray and nine individual trivets that can be playfully removed, placed, rearranged and combined to protect your table from one (or many) of your smallest (or largest) serving dishes.',
+                emoji: '💡'
+            },
+            project3: {
+                title: 'Tilt Collection',
+                description: 'A collection of furniture pieces designed for residential and commercial applications that expand upon the visual language and structural characteristics of the Tilt Lounging Set.',
+                fullDescription: 'A collection of furniture pieces designed for residential and commercial applications that expand upon the visual language and structural characteristics of the Tilt Lounging Set. In addition to the Tilt Lounging Set itself, the Tilt Collection contains a console shelf, side table, wall shelf, woven foot stool, and magazine rack.',
+                emoji: '🎧'
+            },
+            project4: {
+                title: 'Custom Work',
+                description: 'Various commissioned works showcasing skill and sensibility in both design and fabrication.',
+                fullDescription: 'The Modular Kitchen System reimagines food storage with sustainability at its core. Each component is made from plant-based biodegradable materials that break down naturally at the end of their lifecycle. The modular design allows users to customize their storage configuration based on their specific needs. Stackable containers maximize space efficiency while maintaining an aesthetic coherence throughout the kitchen.',
+                emoji: '♻️'
+            }
+        };
+
+        function showProject(projectId) {
+            const project = projects[projectId];
+            const detailColumn = document.getElementById('detailColumn');
+            const projectsColumn = document.getElementById('projectsColumn');
+            const sidebar = document.getElementById('sidebar');
+            const projectDetails = document.getElementById('projectDetails');
+
+            projectDetails.innerHTML = `
+    <div class="detail-info">
+        <h2>${project.title}</h2>
+        <p>${project.fullDescription}</p>
+    </div>
+
+    <div class="hero-image" style="background: url('${project.heroImage}') center/cover no-repeat;"></div>
+    
+    <div class="detail-images">
+        <div class="detail-image" style="background: url('${project.images[0]}') center/cover no-repeat;"></div>
+        <div class="detail-image" style="background: url('${project.images[1]}') center/cover no-repeat;"></div>
+        <div class="detail-image" style="background: url('${project.images[2]}') center/cover no-repeat;"></div>
+        <div class="detail-image" style="background: url('${project.images[3]}') center/cover no-repeat;"></div>
+    </div>
+    
+    <div class="detail-info">
+        <p><strong>Key Features:</strong></p>
+        <p>• Sustainable materials<br>• User-centered design<br>• Award-winning aesthetics<br>• Functional innovation</p>
+    </div>
+
+    <div class="contact-form">
+        <h3>Interested in this project?</h3>
+        <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" required>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="_replyto" required>
+            </div>
+            <div class="form-group">
+                <label>Message</label>
+                <textarea name="message" required></textarea>
+            </div>
+            <input type="hidden" name="_subject" value="New portfolio inquiry!">
+            <input type="text" name="_gotcha" style="display:none">
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+    </div>
+    <div style="height: 100px;"></div>
+`;
+
+
+            detailColumn.classList.add('visible');
+            projectsColumn.classList.add('expanded');
+            sidebar.classList.add('collapsed');
+            
+            // Toggle icon display
+            document.querySelectorAll('.link-text').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.icon-only').forEach(el => el.style.display = 'inline');
+        }
+
+        function closeProject() {
+            const detailColumn = document.getElementById('detailColumn');
+            const projectsColumn = document.getElementById('projectsColumn');
+            const sidebar = document.getElementById('sidebar');
+            
+            detailColumn.classList.remove('visible');
+            projectsColumn.classList.remove('expanded');
+            sidebar.classList.remove('collapsed');
+            
+            // Toggle icon display back
+            document.querySelectorAll('.link-text').forEach(el => el.style.display = 'inline');
+            document.querySelectorAll('.icon-only').forEach(el => el.style.display = 'none');
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const overlay = document.getElementById('mobileOverlay');
+            const logo = document.getElementById('mobileLogo');
+            const btn = document.getElementById('mobileMenuBtn');
+            const isOpen = menu.classList.contains('open');
+
+            if (isOpen) {
+                closeMobileMenu();
+            } else {
+                menu.classList.add('open');
+                overlay.classList.add('active');
+                logo.classList.add('hidden');
+                // Change icon to back arrow
+                btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>';
+            }
+        }
+
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const overlay = document.getElementById('mobileOverlay');
+            const logo = document.getElementById('mobileLogo');
+            const btn = document.getElementById('mobileMenuBtn');
+
+            menu.classList.remove('open');
+            overlay.classList.remove('active');
+            logo.classList.remove('hidden');
+            // Change icon back to info
+            btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>';
+        }
+
+        // Close mobile menu when resizing to desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                closeMobileMenu();
+            }
+        });
+    </script>
+</body>
+</html>
