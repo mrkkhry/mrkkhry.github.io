@@ -709,6 +709,8 @@
     </div>
 
     <script>
+        let homeScrollPosition = 0;
+
         const projects = {
             project1: {
                 title: 'Tilt Lounging Set',
@@ -823,6 +825,8 @@
             const sidebar = document.getElementById('sidebar');
             const projectDetails = document.getElementById('projectDetails');
 
+            homeScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+
             projectDetails.innerHTML = `
     <div class="detail-info">
         <h2>${project.title}</h2>
@@ -882,6 +886,8 @@
             window.scrollTo(0, 0);
 
             detailColumn.scrollTo(0, 0);
+
+            document.body.style.overflow = 'hidden';
         }
 
         function closeProject() {
@@ -896,6 +902,13 @@
             // Toggle icon display back
             document.querySelectorAll('.link-text').forEach(el => el.style.display = 'inline');
             document.querySelectorAll('.icon-only').forEach(el => el.style.display = 'none');
+
+            document.body.style.overflow = '';
+
+            setTimeout(() => {
+                window.scrollTo(0, homeScrollPosition);
+            }, 10);
+
         }
 
         function toggleMobileMenu() {
