@@ -878,6 +878,10 @@
             // Toggle icon display
             document.querySelectorAll('.link-text').forEach(el => el.style.display = 'none');
             document.querySelectorAll('.icon-only').forEach(el => el.style.display = 'inline');
+
+            window.scrollTo(0, 0);
+
+            detailColumn.scrollTo(0, 0);
         }
 
         function closeProject() {
