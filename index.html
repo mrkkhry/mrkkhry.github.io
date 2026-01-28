@@ -254,6 +254,30 @@
             display: none;
         }
 
+/* Unvisited link */
+a:link {
+  color: #222222;
+  text-decoration: none;
+}
+
+/* Visited link */
+a:visited {
+  color: #222222;
+  text-decoration: none;
+}
+
+/* Mouse over link */
+a:hover {
+  color: #41625F;
+  text-decoration: none;
+}
+
+/* Selected link/active state */
+a:active {
+  color: #222222;
+  text-decoration: none;
+}
+
         .contact-links {
             margin-top: 2rem;
         }
@@ -695,6 +719,14 @@
                 </div>
                 <div class="project-card-image" style="background: url('images/projects/customwork-hero.jpg') center/cover no-repeat;"></div>
             </div>
+
+            <div class="project-card" onclick="showProject('project5')">
+                <div class="project-card-content">
+                    <h2>Exhibitions and Recognitions</h2>
+                    <p>Featured exhibitions, awards, and press.</p>
+                </div>
+                <div class="project-card-image" style="background: url('images/projects/exhibitions-hero.jpg') center/cover no-repeat;"></div>
+            </div>
            
             <!-- Contact Section -->
             <div style="margin-top: 1rem; padding-top: 1rem;">
@@ -840,8 +872,57 @@
                     'Custom seven foot long mid-century inspired bench with live edge walnut top',
                     'Pair of plywood occasional chairs for film production.',
                     'Hard maple desk for commercial office renovation.'
-            ],
-            }
+            ]
+            },
+            project5: {
+                title: 'Exhibitions and Recognitions',
+                description: 'Featured exhibitions, awards, and press.',
+                fullDescription: 'Featured exhibitions, awards, and press from various shows across North America.',
+                heroImage: 'images/projects/exhibitions-hero.jpg',
+                images: [],  // Empty array since you only want the hero image
+                lists: [
+        {
+            title: 'Exhibitions',
+            items: [
+                '2026 - Toronto - IDS Toronto 2026, <i>Studio North - Studio Drum</i>',
+                '2025 - Toronto - Everything Gallery, <i>Social Notation</i>',
+                '2025 - Montréal - Bois Magique, <i>Bois Magique No. 3</i>',
+                '2025 - New York City - ICFF 2025, <i>Wanted Launch Pad</i>',
+                '2025 - Toronto - IDS Toronto 2025, <i>Studio North</i>',
+                '2024 - Toronto - Modulo Shop, <i>Exhibition 02 - Automobilia</i>',
+                '2024 - Toronto - Nahnushe, <i>Middle Eastern Artists Bazaar</i>',
+                '2024 - Toronto - Cultural Harmonix, <i>Harmonix Room</i>',
+                '2024 - Toronto - IDS Toronto 2024, <i>Prototype</i>',
+                '2019 - Montréal - Salon du Design de Montréal, <i>Concordia Booth</i>',
+                '2019 - Montréal - Concordia University, <i>In.finite Year End Show</i>',
+                '2018 - Montréal - Concordia University, <i>You Are Here End Show</i>',
+                '2017 - Montréal - Concordia University, <i>May Contain Year End Show</i>'
+            ]
+        },
+        {
+            title: 'Awards',
+            items: [
+                '2025 - Toronto - IDS Toronto 2025, <i>Studio North Section Winner</i>',
+                '2025 - Toronto - IDS Toronto 2025, <i>Designlines Magazine Love Tag Recipient</i>',
+                '2024 - Toronto - IDS Toronto 2024, <i>Prototype Section Runner Up</i>',
+                '2024 - Toronto - IDS Toronto 2024, <i>Designlines Magazine Love Tag Recipient</i>',
+                '2017 - Montreal - Concordia University, <i>May Contain Year End Show Sustainability Award</i>'
+            ]
+        },
+        {
+            title: 'Press',
+            items: [
+                '2026 - Azure Magazine, <i><a href="https://www.azuremagazine.com/article/ids-toronto-2026-preview/">Everything to Look Forward to at IDS Toronto 2026 - Studio Drum</a></i>',
+                '2025 - Leibal, <i><a href="https://leibal.com/furniture/tilt-lounging-set/">Tilt Lounging Set by Mark Khoury</a></i>',
+                '2025 - DesignWanted, <i><a href="https://www.instagram.com/p/DNIYeCnThNW/?igsh=MWpwOWtxNGVzaXZlaA%3D%3D">DesignWanted Instagram Feature</a></i>',
+                '2025 - Dwell, <i><a href="https://www.dwell.com/article/meet-the-emerging-designers-from-2025-icffs-launch-pad-at-wanted-c28fdd39">Meet the Emerging Designers From 2025 ICFF’s Launch Pad at WANTED</a></i>',
+                '2025 - Guy With an Eye, <i><a href="https://www.guywithaneye.ca/guy-goes-to-ids/">Guy goes to IDS</a></i>',
+                '2025 - Designlines Magazine, <i><a href="https://www.designlinesmagazine.com/2025-love-tags/">2025 Love Tag Recipients</a></i>',
+                '2024 - Designlines Magazine, <i><a href="https://www.designlinesmagazine.com/dlloves2024/">2024 Love Tag Recipients</a></i>'
+            ]
+        }
+    ]
+}
         };
 
         function showProject(projectId) {
@@ -873,8 +954,13 @@
     </div>  
     
     <div class="detail-info">
-    <p><strong>Additional Information</strong></p>
-    <p>${project.features ? project.features.map(f => '• ' + f).join('<br>') : '• Sustainable materials<br>• User-centered design<br>• Award-winning aesthetics<br>• Functional innovation'}</p>
+    ${project.lists ? project.lists.map(list => `
+        <p><strong>${list.title}</strong></p>
+        <p>${list.items.map(item => '' + item).join('<br>')}</p>
+    `).join('') : project.features ? `
+        <p><strong>Additional Information</strong></p>
+        <p>${project.features.map(f => '• ' + f).join('<br>')}</p>
+    ` : ''}
 </div>
 
     <div class="contact-form">
